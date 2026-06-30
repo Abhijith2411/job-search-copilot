@@ -15,6 +15,7 @@ export function ResumeUploader() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const [uploadMode, setUploadMode] = useState<'text' | 'file'>('text');
 
   const fetchResumes = async () => {
     try {
@@ -30,6 +31,26 @@ export function ResumeUploader() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     fetchResumes();
   }, []);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const text = await file.text();
+      if (!text.trim()) {
+        throw new Error('File appears to be empty');
+      }
+      setContent(text);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to read file');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleUpload = async () => {
     if (!content.trim()) {
@@ -53,6 +74,7 @@ export function ResumeUploader() {
 
       setContent('');
       setShowForm(false);
+      setUploadMode('text');
       await fetchResumes();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Upload failed');
@@ -104,19 +126,71 @@ export function ResumeUploader() {
       {error && <div className="bg-red-900/20 border border-red-700 text-red-300 p-3 rounded mb-4">{error}</div>}
 
       {showForm && (
-        <div className="mb-4 p-4 bg-slate-800 rounded border border-slate-700">
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="Paste your resume here..."
-            className="w-full h-40 p-3 bg-slate-950 border border-slate-600 rounded text-white text-sm placeholder-slate-500 focus:outline-none focus:border-blue-500"
-          />
+        <div className="mb-4 p-4 bg-slate-800 rounded border border-slate-700 space-y-3">
+          <div className="flex gap-4">
+            <label className="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white">
+              <input
+                type="radio"
+                checked={uploadMode === 'text'}
+                onChange={() => setUploadMode('text')}
+                className="w-4 h-4"
+              />
+              Paste Text
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white">
+              <input
+                type="radio"
+                checked={uploadMode === 'file'}
+                onChange={() => setUploadMode('file')}
+                className="w-4 h-4"
+              />
+              Upload File
+            </label>
+          </div>
+
+          {uploadMode === 'text' ? (
+            <textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="Paste your resume here..."
+              className="w-full h-40 p-3 bg-slate-950 border border-slate-600 rounded text-white text-sm placeholder-slate-500 focus:outline-none focus:border-blue-500"
+            />
+          ) : (
+            <div className="space-y-2">
+              <label className="block">
+                <div className="border-2 border-dashed border-slate-600 rounded-lg p-6 text-center cursor-pointer hover:border-slate-500 transition">
+                  <input
+                    type="file"
+                    accept=".txt,.pdf,.doc,.docx"
+                    onChange={handleFileUpload}
+                    disabled={isLoading}
+                    className="hidden"
+                  />
+                  <p className="text-slate-400 text-sm">
+                    Click to select a file or drag and drop
+                  </p>
+                  <p className="text-slate-500 text-xs mt-1">
+                    Supported: .txt, .pdf, .doc, .docx
+                  </p>
+                </div>
+              </label>
+              {content && (
+                <div className="bg-slate-950 border border-slate-600 rounded p-3">
+                  <p className="text-green-400 text-sm mb-2">✓ File loaded successfully</p>
+                  <p className="text-slate-400 text-xs">
+                    {content.substring(0, 100)}...
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+
           <button
             onClick={handleUpload}
-            disabled={isLoading}
-            className="mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white rounded transition"
+            disabled={isLoading || !content.trim()}
+            className="w-full px-4 py-2 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white rounded transition"
           >
-            {isLoading ? 'Uploading...' : 'Upload'}
+            {isLoading ? 'Processing...' : 'Upload'}
           </button>
         </div>
       )}
