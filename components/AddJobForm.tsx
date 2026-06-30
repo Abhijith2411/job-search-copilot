@@ -32,12 +32,37 @@ export default function AddJobForm({ onJobAdded, onCancel }: AddJobFormProps) {
     setIsLoading(true);
     setError(null);
 
+    // Validate all required fields
+    if (!formData.title.trim()) {
+      setError('Job Title is required');
+      setIsLoading(false);
+      return;
+    }
+
+    if (!formData.company.trim()) {
+      setError('Company Name is required');
+      setIsLoading(false);
+      return;
+    }
+
+    if (isManual && !formData.description.trim()) {
+      setError('Job Description is required');
+      setIsLoading(false);
+      return;
+    }
+
+    if (!isManual && !formData.url.trim()) {
+      setError('Job Posting URL is required');
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const payload = {
-        title: formData.title || 'Untitled Position',
-        company: formData.company || 'Unknown Company',
-        url: formData.url || null,
-        description: formData.description || null,
+        title: formData.title.trim(),
+        company: formData.company.trim(),
+        url: isManual ? null : formData.url.trim(),
+        description: isManual ? formData.description.trim() : null,
       };
 
       const response = await fetch('/api/jobs', {
@@ -95,44 +120,58 @@ export default function AddJobForm({ onJobAdded, onCancel }: AddJobFormProps) {
 
       {/* Form Fields */}
       <div className="space-y-3">
-        <input
-          type="text"
-          name="title"
-          placeholder="Job Title"
-          value={formData.title}
-          onChange={handleInputChange}
-          className="w-full bg-slate-700 border border-slate-600 rounded px-3 py-2 text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
-          required
-        />
-
-        <input
-          type="text"
-          name="company"
-          placeholder="Company Name"
-          value={formData.company}
-          onChange={handleInputChange}
-          className="w-full bg-slate-700 border border-slate-600 rounded px-3 py-2 text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
-          required
-        />
-
-        {isManual ? (
-          <textarea
-            name="description"
-            placeholder="Job Description (optional)"
-            value={formData.description}
-            onChange={handleInputChange}
-            rows={4}
-            className="w-full bg-slate-700 border border-slate-600 rounded px-3 py-2 text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 resize-none"
-          />
-        ) : (
+        <div>
+          <label className="block text-sm text-slate-300 mb-1">Job Title *</label>
           <input
-            type="url"
-            name="url"
-            placeholder="Job Posting URL"
-            value={formData.url}
+            type="text"
+            name="title"
+            placeholder="e.g., Senior Software Engineer"
+            value={formData.title}
             onChange={handleInputChange}
             className="w-full bg-slate-700 border border-slate-600 rounded px-3 py-2 text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+            required
           />
+        </div>
+
+        <div>
+          <label className="block text-sm text-slate-300 mb-1">Company Name *</label>
+          <input
+            type="text"
+            name="company"
+            placeholder="e.g., Google, Microsoft, Anthropic"
+            value={formData.company}
+            onChange={handleInputChange}
+            className="w-full bg-slate-700 border border-slate-600 rounded px-3 py-2 text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+            required
+          />
+        </div>
+
+        {isManual ? (
+          <div>
+            <label className="block text-sm text-slate-300 mb-1">Job Description *</label>
+            <textarea
+              name="description"
+              placeholder="Paste the full job description here..."
+              value={formData.description}
+              onChange={handleInputChange}
+              rows={4}
+              className="w-full bg-slate-700 border border-slate-600 rounded px-3 py-2 text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 resize-none"
+              required
+            />
+          </div>
+        ) : (
+          <div>
+            <label className="block text-sm text-slate-300 mb-1">Job Posting URL *</label>
+            <input
+              type="url"
+              name="url"
+              placeholder="https://example.com/jobs/..."
+              value={formData.url}
+              onChange={handleInputChange}
+              className="w-full bg-slate-700 border border-slate-600 rounded px-3 py-2 text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+              required
+            />
+          </div>
         )}
       </div>
 
