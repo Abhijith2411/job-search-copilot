@@ -1,144 +1,26 @@
 @import "tailwindcss";
 
-/* Linear Design System Colors */
 :root {
-  /* Canvas & Surfaces */
-  --color-canvas: #010102;
-  --color-surface-1: #0f1011;
-  --color-surface-2: #141516;
-  --color-surface-3: #18191a;
-  --color-surface-4: #191a1b;
-  --color-hairline: #23252a;
-  --color-hairline-strong: #34343a;
-  --color-hairline-tertiary: #3e3e44;
-
-  /* Brand & Accent */
-  --color-primary: #5e6ad2;
-  --color-primary-hover: #828fff;
-  --color-primary-focus: #5e69d1;
-  --color-brand-secure: #7a7fad;
-
-  /* Text */
-  --color-ink: #f7f8f8;
-  --color-ink-muted: #d0d6e0;
-  --color-ink-subtle: #8a8f98;
-  --color-ink-tertiary: #62666d;
-
-  /* Semantic */
-  --color-semantic-success: #27a644;
-
-  /* Inverse (for rare light surfaces) */
-  --color-inverse-canvas: #ffffff;
-  --color-inverse-surface-1: #f5f6f6;
-  --color-inverse-surface-2: #f6f7f7;
-  --color-inverse-ink: #000000;
-
-  /* Spacing (base unit 4px) */
-  --spacing-xxs: 4px;
-  --spacing-xs: 8px;
-  --spacing-sm: 12px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
-  --spacing-xxl: 48px;
-  --spacing-section: 96px;
+  --background: #ffffff;
+  --foreground: #171717;
 }
 
 @theme inline {
-  --color-canvas: var(--color-canvas);
-  --color-surface-1: var(--color-surface-1);
-  --color-surface-2: var(--color-surface-2);
-  --color-surface-3: var(--color-surface-3);
-  --color-surface-4: var(--color-surface-4);
-  --color-hairline: var(--color-hairline);
-  --color-hairline-strong: var(--color-hairline-strong);
-  --color-hairline-tertiary: var(--color-hairline-tertiary);
-
-  --color-primary: var(--color-primary);
-  --color-primary-hover: var(--color-primary-hover);
-  --color-primary-focus: var(--color-primary-focus);
-  --color-brand-secure: var(--color-brand-secure);
-
-  --color-ink: var(--color-ink);
-  --color-ink-muted: var(--color-ink-muted);
-  --color-ink-subtle: var(--color-ink-subtle);
-  --color-ink-tertiary: var(--color-ink-tertiary);
-
-  --color-semantic-success: var(--color-semantic-success);
-
-  --color-inverse-canvas: var(--color-inverse-canvas);
-  --color-inverse-surface-1: var(--color-inverse-surface-1);
-  --color-inverse-surface-2: var(--color-inverse-surface-2);
-  --color-inverse-ink: var(--color-inverse-ink);
-
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-
-  --radius-xs: 4px;
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-xxl: 24px;
-  --radius-pill: 9999px;
 }
 
-* {
-  @apply border-hairline;
-}
-
-html {
-  @apply bg-canvas text-ink;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
 }
 
 body {
-  @apply bg-canvas text-ink font-sans;
-}
-
-/* Typography - Linear Display (60-80px) */
-.text-display-xl {
-  @apply text-7xl font-semibold leading-tight tracking-tighter;
-}
-
-.text-display-lg {
-  @apply text-5xl font-semibold leading-tight tracking-tighter;
-}
-
-.text-display-md {
-  @apply text-4xl font-semibold leading-snug tracking-tight;
-}
-
-/* Typography - Headline (28px) */
-.text-headline {
-  @apply text-2xl font-semibold leading-relaxed tracking-tight;
-}
-
-/* Typography - Card Title (22px) */
-.text-card-title {
-  @apply text-xl font-medium leading-relaxed;
-}
-
-/* Typography - Subhead (20px) */
-.text-subhead {
-  @apply text-lg font-normal leading-relaxed;
-}
-
-/* Typography - Body (16px, default) */
-.text-body {
-  @apply text-base font-normal leading-relaxed;
-}
-
-/* Typography - Body Small (14px) */
-.text-body-sm {
-  @apply text-sm font-normal leading-relaxed;
-}
-
-/* Typography - Caption (12px) */
-.text-caption {
-  @apply text-xs font-normal leading-snug;
-}
-
-/* Button Typography */
-.text-button {
-  @apply text-sm font-medium leading-tight;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
 }
