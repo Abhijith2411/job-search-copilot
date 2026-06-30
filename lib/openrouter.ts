@@ -10,7 +10,7 @@ interface GenerateOptions {
 export async function generateWithOpenRouter({
   prompt,
   systemPrompt,
-  model = 'meta-llama/llama-2-70b-chat',
+  model = 'openrouter/auto',
 }: GenerateOptions): Promise<string> {
   if (!OPENROUTER_API_KEY) {
     throw new Error('OPENROUTER_API_KEY is not set');
