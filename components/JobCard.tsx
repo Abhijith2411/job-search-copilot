@@ -7,9 +7,10 @@ import { useState } from 'react';
 interface JobCardProps {
   job: Job;
   onDeleted: (jobId: string) => void;
+  onSelect: (job: Job) => void;
 }
 
-export default function JobCard({ job, onDeleted }: JobCardProps) {
+export default function JobCard({ job, onDeleted, onSelect }: JobCardProps) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id: job.id,
   });
@@ -47,12 +48,13 @@ export default function JobCard({ job, onDeleted }: JobCardProps) {
       style={style}
       {...listeners}
       {...attributes}
-      className={`bg-slate-700 border border-slate-600 rounded-lg p-3 cursor-move transition-all ${
+      onClick={() => onSelect(job)}
+      className={`bg-slate-700 border border-slate-600 rounded-lg p-3 cursor-move transition-all group ${
         isDragging ? 'opacity-50 scale-95' : 'hover:bg-slate-600 hover:border-slate-500'
       }`}
     >
       <div className="flex justify-between items-start gap-2">
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 group-hover:opacity-75 transition-opacity">
           <h3 className="text-sm font-medium text-white truncate">{job.title}</h3>
           <p className="text-xs text-slate-400 truncate">{job.company}</p>
           {appliedDate && (
@@ -60,7 +62,10 @@ export default function JobCard({ job, onDeleted }: JobCardProps) {
           )}
         </div>
         <button
-          onClick={handleDelete}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDelete();
+          }}
           disabled={isDeleting}
           className="text-slate-400 hover:text-red-400 text-lg leading-none disabled:opacity-50 flex-shrink-0"
           title="Delete job"

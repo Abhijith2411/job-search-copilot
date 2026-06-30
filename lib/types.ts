@@ -23,7 +23,7 @@ export interface Resume {
 export interface AIGeneration {
   id: string;
   jobId: string;
-  generationType: 'COVER_LETTER' | 'RESUME_BULLETS' | 'INTERVIEW_QUESTIONS' | 'COMPANY_BRIEF';
+  generationType: 'COVER_LETTER' | 'RESUME_BULLETS' | 'INTERVIEW_QUESTIONS' | 'COMPANY_BRIEF' | 'LINKEDIN_MESSAGE';
   prompt: string;
   output: string;
   model: string;

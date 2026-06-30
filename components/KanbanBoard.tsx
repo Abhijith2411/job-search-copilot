@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { DndContext, DragEndEvent } from '@dnd-kit/core';
 import JobColumn from './JobColumn';
 import AddJobForm from './AddJobForm';
+import { JobDetailModal } from './JobDetailModal';
+import { ResumeUploader } from './ResumeUploader';
 import { Job } from '@/lib/types';
 
 const COLUMNS = [
@@ -17,6 +19,7 @@ const COLUMNS = [
 export default function KanbanBoard() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -107,6 +110,15 @@ export default function KanbanBoard() {
             </div>
           )}
 
+          {/* Job Detail Modal */}
+          {selectedJob && (
+            <JobDetailModal
+              job={selectedJob}
+              onClose={() => setSelectedJob(null)}
+              onDelete={handleJobDeleted}
+            />
+          )}
+
           {/* Error Message */}
           {error && (
             <div className="mb-6 p-4 bg-red-900 border border-red-700 rounded-lg text-red-100">
@@ -118,18 +130,22 @@ export default function KanbanBoard() {
           {isLoading ? (
             <div className="text-center py-12 text-slate-400">Loading jobs...</div>
           ) : (
-            /* Kanban Board */
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-              {COLUMNS.map(({ status, label }) => (
-                <JobColumn
-                  key={status}
-                  status={status}
-                  label={label}
-                  jobs={jobs.filter((job) => job.status === status)}
-                  onJobDeleted={handleJobDeleted}
-                />
-              ))}
-            </div>
+            <>
+              <ResumeUploader />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                {COLUMNS.map(({ status, label }) => (
+                  <JobColumn
+                    key={status}
+                    status={status}
+                    label={label}
+                    jobs={jobs.filter((job) => job.status === status)}
+                    onJobDeleted={handleJobDeleted}
+                    onJobSelect={setSelectedJob}
+                  />
+                ))}
+              </div>
+            </>
           )}
         </div>
       </div>

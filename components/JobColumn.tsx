@@ -9,9 +9,10 @@ interface JobColumnProps {
   label: string;
   jobs: Job[];
   onJobDeleted: (jobId: string) => void;
+  onJobSelect: (job: Job) => void;
 }
 
-export default function JobColumn({ status, label, jobs, onJobDeleted }: JobColumnProps) {
+export default function JobColumn({ status, label, jobs, onJobDeleted, onJobSelect }: JobColumnProps) {
   const { setNodeRef } = useDroppable({ id: status });
 
   return (
@@ -26,7 +27,7 @@ export default function JobColumn({ status, label, jobs, onJobDeleted }: JobColu
 
       <div className="space-y-3 flex-1 overflow-y-auto">
         {jobs.map((job) => (
-          <JobCard key={job.id} job={job} onDeleted={onJobDeleted} />
+          <JobCard key={job.id} job={job} onDeleted={onJobDeleted} onSelect={onJobSelect} />
         ))}
         {jobs.length === 0 && (
           <div className="text-center py-8 text-slate-500 text-sm">No jobs</div>
