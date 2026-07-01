@@ -88,12 +88,9 @@ export default function KanbanBoard() {
         <div className="max-w-7xl mx-auto px-6 py-12">
           {/* Header */}
           <div className="mb-12">
-            <h1 className="text-display-md font-display font-semibold text-linear-ink mb-2 tracking-tight">
+            <h1 className="text-display-md font-display font-semibold text-linear-ink mb-6 tracking-tight">
               Job Tracker
             </h1>
-            <p className="text-body text-linear-ink-subtle mb-6">
-              Manage your application pipeline with AI-powered content generation
-            </p>
             <button
               onClick={() => setShowAddForm(true)}
               className="px-4 py-2 bg-linear-primary text-white rounded-md hover:bg-linear-primary-hover focus:ring-2 focus:ring-linear-primary-focus focus:ring-opacity-50 font-button text-button transition-all"
