@@ -18,11 +18,15 @@ export default function JobColumn({ status, label, jobs, onJobDeleted, onJobSele
   return (
     <div
       ref={setNodeRef}
-      className="bg-slate-800 border border-slate-700 rounded-lg p-4 min-h-96 flex flex-col"
+      className="bg-linear-surface-3 rounded-lg p-4 min-h-96 flex flex-col border border-linear-hairline"
     >
-      <div className="mb-4 pb-3 border-b border-slate-700">
-        <h2 className="text-sm font-semibold text-white">{label}</h2>
-        <p className="text-xs text-slate-400 mt-1">{jobs.length} jobs</p>
+      <div className="mb-4 pb-3 border-b border-linear-hairline">
+        <h2 className="text-headline font-display font-semibold text-linear-ink">
+          {label}
+        </h2>
+        <p className="text-caption text-linear-ink-subtle mt-1">
+          {jobs.length} {jobs.length === 1 ? 'job' : 'jobs'}
+        </p>
       </div>
 
       <div className="space-y-3 flex-1 overflow-y-auto">
@@ -30,7 +34,9 @@ export default function JobColumn({ status, label, jobs, onJobDeleted, onJobSele
           <JobCard key={job.id} job={job} onDeleted={onJobDeleted} onSelect={onJobSelect} />
         ))}
         {jobs.length === 0 && (
-          <div className="text-center py-8 text-slate-500 text-sm">No jobs</div>
+          <div className="text-center py-8 text-linear-ink-subtle text-body">
+            No jobs
+          </div>
         )}
       </div>
     </div>

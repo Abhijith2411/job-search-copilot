@@ -42,6 +42,23 @@ export default function JobCard({ job, onDeleted, onSelect }: JobCardProps) {
       })
     : null;
 
+  const getStatusColor = () => {
+    switch (job.status) {
+      case 'WISHLIST':
+        return 'bg-linear-brand-secure';
+      case 'APPLIED':
+        return 'bg-linear-primary';
+      case 'INTERVIEWING':
+        return 'bg-linear-primary-hover';
+      case 'OFFER':
+        return 'bg-linear-success';
+      case 'REJECTED':
+        return 'bg-linear-ink-subtle';
+      default:
+        return 'bg-linear-primary';
+    }
+  };
+
   return (
     <div
       ref={setNodeRef}
@@ -49,16 +66,27 @@ export default function JobCard({ job, onDeleted, onSelect }: JobCardProps) {
       {...listeners}
       {...attributes}
       onClick={() => onSelect(job)}
-      className={`bg-slate-700 border border-slate-600 rounded-lg p-3 cursor-move transition-all group ${
-        isDragging ? 'opacity-50 scale-95' : 'hover:bg-slate-600 hover:border-slate-500'
+      className={`bg-linear-surface-1 border border-linear-hairline rounded-lg p-3 cursor-move transition-all group relative pl-4 ${
+        isDragging
+          ? 'opacity-50 scale-95 border-linear-primary'
+          : 'hover:bg-linear-surface-2 hover:border-linear-hairline-strong'
       }`}
     >
+      {/* Signature Status Bar - Left Edge */}
+      <div className={`absolute left-0 top-0 bottom-0 w-1 rounded-l-lg ${getStatusColor()}`} />
+
       <div className="flex justify-between items-start gap-2">
-        <div className="flex-1 min-w-0 group-hover:opacity-75 transition-opacity">
-          <h3 className="text-sm font-medium text-white truncate">{job.title}</h3>
-          <p className="text-xs text-slate-400 truncate">{job.company}</p>
+        <div className="flex-1 min-w-0">
+          <h3 className="text-card-title font-display font-semibold text-linear-ink truncate">
+            {job.title}
+          </h3>
+          <p className="text-body-sm text-linear-ink-muted truncate">
+            {job.company}
+          </p>
           {appliedDate && (
-            <p className="text-xs text-slate-500 mt-2">Applied: {appliedDate}</p>
+            <p className="text-caption text-linear-ink-subtle mt-2">
+              Applied {appliedDate}
+            </p>
           )}
         </div>
         <button
@@ -67,7 +95,7 @@ export default function JobCard({ job, onDeleted, onSelect }: JobCardProps) {
             handleDelete();
           }}
           disabled={isDeleting}
-          className="text-slate-400 hover:text-red-400 text-lg leading-none disabled:opacity-50 flex-shrink-0"
+          className="text-linear-ink-subtle hover:text-red-400 text-lg leading-none disabled:opacity-50 flex-shrink-0 transition-colors"
           title="Delete job"
         >
           ×

@@ -84,15 +84,19 @@ export default function KanbanBoard() {
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      <div className="min-h-screen bg-slate-950 p-6">
-        <div className="max-w-7xl mx-auto">
+      <div className="min-h-screen bg-linear-canvas">
+        <div className="max-w-7xl mx-auto px-6 py-12">
           {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">Job Tracker</h1>
-            <p className="text-slate-400 mb-4">Manage your job application pipeline</p>
+          <div className="mb-12">
+            <h1 className="text-display-md font-display font-semibold text-linear-ink mb-2 tracking-tight">
+              Job Tracker
+            </h1>
+            <p className="text-body text-linear-ink-subtle mb-6">
+              Manage your application pipeline with AI-powered content generation
+            </p>
             <button
               onClick={() => setShowAddForm(true)}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              className="px-4 py-2 bg-linear-primary text-white rounded-md hover:bg-linear-primary-hover focus:ring-2 focus:ring-linear-primary-focus focus:ring-opacity-50 font-button text-button transition-all"
             >
               + Add Job
             </button>
@@ -100,8 +104,8 @@ export default function KanbanBoard() {
 
           {/* Add Job Modal */}
           {showAddForm && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-              <div className="bg-slate-900 rounded-lg p-6 max-w-md w-full border border-slate-700">
+            <div className="fixed inset-0 bg-linear-overlay bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+              <div className="bg-linear-surface-2 rounded-lg p-6 max-w-md w-full border border-linear-hairline-strong shadow-lg">
                 <AddJobForm
                   onJobAdded={handleJobAdded}
                   onCancel={() => setShowAddForm(false)}
@@ -121,19 +125,21 @@ export default function KanbanBoard() {
 
           {/* Error Message */}
           {error && (
-            <div className="mb-6 p-4 bg-red-900 border border-red-700 rounded-lg text-red-100">
+            <div className="mb-6 p-4 bg-red-900/20 border border-red-700/50 rounded-lg text-red-300 text-body">
               {error}
             </div>
           )}
 
           {/* Loading State */}
           {isLoading ? (
-            <div className="text-center py-12 text-slate-400">Loading jobs...</div>
+            <div className="text-center py-16 text-linear-ink-subtle text-body">
+              Loading jobs...
+            </div>
           ) : (
             <>
               <ResumeUploader />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mt-8">
                 {COLUMNS.map(({ status, label }) => (
                   <JobColumn
                     key={status}

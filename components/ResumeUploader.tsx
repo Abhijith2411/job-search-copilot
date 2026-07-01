@@ -110,23 +110,29 @@ export function ResumeUploader() {
   };
 
   return (
-    <div className="bg-slate-900 border border-slate-700 rounded-lg p-6 mb-6">
+    <div className="bg-linear-surface-1 border border-linear-hairline rounded-lg p-6 mb-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold text-white">Resume Management</h2>
+        <h2 className="text-card-title font-display font-semibold text-linear-ink">
+          Resume Management
+        </h2>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded transition"
+          className="px-3 py-1 bg-linear-primary hover:bg-linear-primary-hover text-white text-button rounded-md transition-all"
         >
           {showForm ? 'Cancel' : '+ Upload Resume'}
         </button>
       </div>
 
-      {error && <div className="bg-red-900/20 border border-red-700 text-red-300 p-3 rounded mb-4">{error}</div>}
+      {error && (
+        <div className="bg-red-900/20 border border-red-700/50 text-red-300 p-3 rounded mb-4 text-body">
+          {error}
+        </div>
+      )}
 
       {showForm && (
-        <div className="mb-4 p-4 bg-slate-800 rounded border border-slate-700 space-y-3">
+        <div className="mb-4 p-4 bg-linear-surface-2 rounded border border-linear-hairline space-y-3">
           <label className="block">
-            <div className="border-2 border-dashed border-slate-600 rounded-lg p-6 text-center cursor-pointer hover:border-slate-500 transition">
+            <div className="border-2 border-dashed border-linear-hairline-strong rounded-lg p-6 text-center cursor-pointer hover:border-linear-primary transition-colors">
               <input
                 type="file"
                 accept=".txt,.pdf,.doc,.docx"
@@ -134,19 +140,19 @@ export function ResumeUploader() {
                 disabled={isLoading}
                 className="hidden"
               />
-              <p className="text-slate-400 text-sm font-medium">
+              <p className="text-linear-ink text-body font-button">
                 📄 Click to select a file or drag and drop
               </p>
-              <p className="text-slate-500 text-xs mt-2">
-                Supported formats: .txt, .pdf, .doc, .docx
+              <p className="text-linear-ink-subtle text-caption mt-2">
+                Supported: .txt, .pdf, .doc, .docx
               </p>
             </div>
           </label>
 
           {content && (
-            <div className="bg-slate-950 border border-slate-600 rounded p-3">
-              <p className="text-green-400 text-sm mb-2">✓ File loaded successfully</p>
-              <p className="text-slate-400 text-xs line-clamp-2">
+            <div className="bg-linear-surface-3 border border-linear-hairline rounded p-3">
+              <p className="text-linear-success text-body mb-2">✓ File loaded successfully</p>
+              <p className="text-linear-ink-subtle text-caption line-clamp-2">
                 {content.substring(0, 150)}...
               </p>
             </div>
@@ -155,7 +161,7 @@ export function ResumeUploader() {
           <button
             onClick={handleUpload}
             disabled={isLoading || !content.trim()}
-            className="w-full px-4 py-2 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white rounded transition font-medium"
+            className="w-full px-4 py-2 bg-linear-success hover:bg-linear-success/80 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-md transition-all font-button text-button"
           >
             {isLoading ? 'Processing...' : 'Upload Resume'}
           </button>
@@ -164,16 +170,23 @@ export function ResumeUploader() {
 
       <div className="space-y-2">
         {resumes.length === 0 ? (
-          <p className="text-slate-400 text-sm">No resumes yet. Upload one to get started.</p>
+          <p className="text-linear-ink-subtle text-body">No resumes yet. Upload one to get started.</p>
         ) : (
           resumes.map((resume, idx) => (
-            <div key={resume.id} className="flex items-center justify-between p-3 bg-slate-800 border border-slate-700 rounded hover:border-slate-600 transition">
+            <div
+              key={resume.id}
+              className="flex items-center justify-between p-3 bg-linear-surface-2 border border-linear-hairline rounded-lg hover:border-linear-hairline-strong transition-colors"
+            >
               <div className="flex-1">
-                <div className="text-sm text-slate-300">
+                <div className="text-body text-linear-ink">
                   Resume {resumes.length - idx}
-                  {resume.isActive && <span className="ml-2 px-2 py-0.5 bg-green-600/30 text-green-300 text-xs rounded">Active</span>}
+                  {resume.isActive && (
+                    <span className="ml-2 px-2 py-0.5 bg-linear-success/20 text-linear-success text-caption rounded">
+                      Active
+                    </span>
+                  )}
                 </div>
-                <div className="text-xs text-slate-500 mt-1">
+                <div className="text-caption text-linear-ink-subtle mt-1">
                   {new Date(resume.uploadedAt).toLocaleDateString()}
                 </div>
               </div>
@@ -181,14 +194,14 @@ export function ResumeUploader() {
                 {!resume.isActive && (
                   <button
                     onClick={() => handleSetActive(resume.id)}
-                    className="px-2 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded transition"
+                    className="px-2 py-1 text-caption bg-linear-primary hover:bg-linear-primary-hover text-white rounded-md transition-all"
                   >
                     Set Active
                   </button>
                 )}
                 <button
                   onClick={() => handleDelete(resume.id)}
-                  className="px-2 py-1 text-xs bg-red-600 hover:bg-red-700 text-white rounded transition"
+                  className="px-2 py-1 text-caption bg-red-600/50 hover:bg-red-600 text-red-200 rounded-md transition-all"
                 >
                   Delete
                 </button>

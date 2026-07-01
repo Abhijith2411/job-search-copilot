@@ -87,17 +87,17 @@ export default function AddJobForm({ onJobAdded, onCancel }: AddJobFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <h2 className="text-lg font-semibold text-white">Add Job</h2>
+      <h2 className="text-card-title font-display font-semibold text-linear-ink">Add Job</h2>
 
       {/* Mode Toggle */}
       <div className="flex gap-2">
         <button
           type="button"
           onClick={() => setIsManual(true)}
-          className={`flex-1 py-2 px-3 rounded text-sm font-medium transition ${
+          className={`flex-1 py-2 px-3 rounded-md text-button font-button transition-all ${
             isManual
-              ? 'bg-blue-600 text-white'
-              : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+              ? 'bg-linear-primary text-white'
+              : 'bg-linear-surface-2 text-linear-ink-muted hover:bg-linear-surface-3'
           }`}
         >
           Manual Entry
@@ -105,10 +105,10 @@ export default function AddJobForm({ onJobAdded, onCancel }: AddJobFormProps) {
         <button
           type="button"
           onClick={() => setIsManual(false)}
-          className={`flex-1 py-2 px-3 rounded text-sm font-medium transition ${
+          className={`flex-1 py-2 px-3 rounded-md text-button font-button transition-all ${
             !isManual
-              ? 'bg-blue-600 text-white'
-              : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+              ? 'bg-linear-primary text-white'
+              : 'bg-linear-surface-2 text-linear-ink-muted hover:bg-linear-surface-3'
           }`}
         >
           From URL
@@ -116,59 +116,63 @@ export default function AddJobForm({ onJobAdded, onCancel }: AddJobFormProps) {
       </div>
 
       {/* Error Message */}
-      {error && <div className="text-sm text-red-400 bg-red-900/20 p-2 rounded">{error}</div>}
+      {error && (
+        <div className="text-body text-red-300 bg-red-900/20 p-3 rounded border border-red-700/50">
+          {error}
+        </div>
+      )}
 
       {/* Form Fields */}
       <div className="space-y-3">
         <div>
-          <label className="block text-sm text-slate-300 mb-1">Job Title *</label>
+          <label className="block text-body text-linear-ink-muted mb-1">Job Title *</label>
           <input
             type="text"
             name="title"
             placeholder="e.g., Senior Software Engineer"
             value={formData.title}
             onChange={handleInputChange}
-            className="w-full bg-slate-700 border border-slate-600 rounded px-3 py-2 text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+            className="w-full bg-linear-surface-3 border border-linear-hairline rounded-md px-3 py-2 text-linear-ink placeholder-linear-ink-tertiary focus:outline-none focus:border-linear-primary focus:ring-2 focus:ring-linear-primary focus:ring-opacity-50"
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm text-slate-300 mb-1">Company Name *</label>
+          <label className="block text-body text-linear-ink-muted mb-1">Company Name *</label>
           <input
             type="text"
             name="company"
             placeholder="e.g., Google, Microsoft, Anthropic"
             value={formData.company}
             onChange={handleInputChange}
-            className="w-full bg-slate-700 border border-slate-600 rounded px-3 py-2 text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+            className="w-full bg-linear-surface-3 border border-linear-hairline rounded-md px-3 py-2 text-linear-ink placeholder-linear-ink-tertiary focus:outline-none focus:border-linear-primary focus:ring-2 focus:ring-linear-primary focus:ring-opacity-50"
             required
           />
         </div>
 
         {isManual ? (
           <div>
-            <label className="block text-sm text-slate-300 mb-1">Job Description *</label>
+            <label className="block text-body text-linear-ink-muted mb-1">Job Description *</label>
             <textarea
               name="description"
               placeholder="Paste the full job description here..."
               value={formData.description}
               onChange={handleInputChange}
               rows={4}
-              className="w-full bg-slate-700 border border-slate-600 rounded px-3 py-2 text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 resize-none"
+              className="w-full bg-linear-surface-3 border border-linear-hairline rounded-md px-3 py-2 text-linear-ink placeholder-linear-ink-tertiary focus:outline-none focus:border-linear-primary focus:ring-2 focus:ring-linear-primary focus:ring-opacity-50 resize-none"
               required
             />
           </div>
         ) : (
           <div>
-            <label className="block text-sm text-slate-300 mb-1">Job Posting URL *</label>
+            <label className="block text-body text-linear-ink-muted mb-1">Job Posting URL *</label>
             <input
               type="url"
               name="url"
               placeholder="https://example.com/jobs/..."
               value={formData.url}
               onChange={handleInputChange}
-              className="w-full bg-slate-700 border border-slate-600 rounded px-3 py-2 text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+              className="w-full bg-linear-surface-3 border border-linear-hairline rounded-md px-3 py-2 text-linear-ink placeholder-linear-ink-tertiary focus:outline-none focus:border-linear-primary focus:ring-2 focus:ring-linear-primary focus:ring-opacity-50"
               required
             />
           </div>
@@ -180,14 +184,14 @@ export default function AddJobForm({ onJobAdded, onCancel }: AddJobFormProps) {
         <button
           type="button"
           onClick={onCancel}
-          className="flex-1 py-2 px-4 bg-slate-700 text-white rounded hover:bg-slate-600 transition"
+          className="flex-1 py-2 px-4 bg-linear-surface-2 text-linear-ink rounded-md hover:bg-linear-surface-3 transition-colors disabled:opacity-50 font-button text-button"
           disabled={isLoading}
         >
           Cancel
         </button>
         <button
           type="submit"
-          className="flex-1 py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700 transition disabled:opacity-50"
+          className="flex-1 py-2 px-4 bg-linear-primary text-white rounded-md hover:bg-linear-primary-hover transition-all disabled:opacity-50 font-button text-button"
           disabled={isLoading}
         >
           {isLoading ? 'Adding...' : 'Add Job'}
