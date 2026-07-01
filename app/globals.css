@@ -61,40 +61,53 @@ h1, h2, h3, h4, h5, h6 {
 /* Focus Ring Utility */
 @layer utilities {
   .focus-ring {
-    @apply outline-none ring-2 ring-linear-primary-focus ring-opacity-50;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(94, 106, 210, 0.5);
   }
 
   .hairline-border {
-    @apply border border-linear-hairline;
+    border: 1px solid var(--color-hairline);
   }
 
   .surface-lift {
-    @apply bg-linear-surface-1 hairline-border rounded-lg;
+    background-color: var(--color-surface-1);
+    border: 1px solid var(--color-hairline);
+    border-radius: 12px;
   }
 
   /* Status Bar Indicator */
   .status-bar {
-    @apply relative before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:rounded-l-lg;
+    position: relative;
+  }
+
+  .status-bar::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    border-radius: 12px 0 0 12px;
   }
 
   .status-wishlist::before {
-    @apply bg-linear-brand-secure;
+    background-color: var(--color-brand-secure);
   }
 
   .status-applied::before {
-    @apply bg-linear-primary;
+    background-color: var(--color-primary);
   }
 
   .status-interviewing::before {
-    @apply bg-linear-primary-hover;
+    background-color: var(--color-primary-hover);
   }
 
   .status-offer::before {
-    @apply bg-linear-success;
+    background-color: var(--color-success);
   }
 
   .status-rejected::before {
-    @apply bg-linear-ink-subtle;
+    background-color: var(--color-ink-subtle);
   }
 }
 
